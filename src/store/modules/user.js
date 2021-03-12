@@ -2,7 +2,7 @@ import storage from 'store'
 import { getInfo, login, logout } from '@/api/user'
 import { ACCESS_TOKEN } from '@/store/mutation-types'
 import { welcome } from '@/utils/util'
-import md5 from 'md5'
+// import md5 from 'md5'
 
 const user = {
   state: {
@@ -11,7 +11,9 @@ const user = {
     welcome: '',
     avatar: '',
     hasGetInfo: false,
-    info: {}
+    info: {},
+    account: '',
+    gender: ''
   },
 
   mutations: {
@@ -39,6 +41,12 @@ const user = {
       state.welcome = ''
       state.avatar = ''
       storage.remove(ACCESS_TOKEN)
+    },
+    SET_ACCOUNT: (state, account) => {
+      state.account = account
+    },
+    SET_GENDER: (state, gender) => {
+      state.gender = gender
     }
   },
 
@@ -48,11 +56,11 @@ const user = {
       console.log('进入这里')
       const { account, password, keepLogin } = userInfo
       return new Promise((resolve, reject) => {
-        const pass = md5(password)
+        const pass = password
         login({
           account: account,
-          password: pass,
-          keepLogin: keepLogin
+          pwd: pass
+          // keepLogin: keepLogin
         }).then(response => {
           const { data } = response
           console.log('data', data)
@@ -60,8 +68,8 @@ const user = {
           if (keepLogin) {
             time = 7 * 24 * 60 * 60 * 1000
           }
-          storage.set(ACCESS_TOKEN, data['accessToken'], time)
-          commit('SET_TOKEN', data['accessToken'])
+          storage.set(ACCESS_TOKEN, data['token'], time)
+          commit('SET_TOKEN', data['token'])
           resolve()
         }).catch(error => {
           reject(error)
@@ -74,9 +82,19 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo().then(response => {
           const { data } = response
+          console.log(response)
+          // let time = 2 * 60 * 60 * 1000
+          // if (keepLogin) {
+          //   time = 7 * 24 * 60 * 60 * 1000
+          // }
+          // storage.set(ACCESS_TOKEN, data['token'])
+          // commit('SET_TOKEN', data['token'])
+
           commit('SET_HAS_GET_INFO', true)
-          commit('SET_NAME', { name: data.username, welcome: welcome() })
+          commit('SET_NAME', { name: data.name, welcome: welcome() })
           commit('SET_INFO', data)
+          commit('SET_ACCOUNT', data.account)
+          commit('SET_GENDER', data.gender)
           // commit('SET_AVATAR', data.avatar)
           resolve(response)
         }).catch(error => {

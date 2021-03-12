@@ -14,6 +14,7 @@
         style="width: 100%"
         v-model="searchForm.form.date"
         format="YYYY/MM/DD"
+        @change="search"
       />
     </a-form-model-item>
 
@@ -44,6 +45,7 @@ export default {
       const data = { ...this.searchForm.form }
       if (data.date && data.date.length > 0) {
         data.beginDate = data.date[0].format('YYYY-MM-DD')
+        // 转换格式
         data.endDate = data.date[1].format('YYYY-MM-DD')
         delete data.date
       } else {
@@ -51,6 +53,10 @@ export default {
         delete data.endDate
       }
       this.$emit('search', data)
+    },
+    reset () {
+      this.searchForm.form = {}
+      this.search()
     }
   }
 }

@@ -33,8 +33,8 @@ export function logout () {
  * @param data
  * @returns {AxiosPromise}
  */
-export function listUser (data) {
-  return baseList(baseUrl, data)
+export function listUser () {
+  return baseList(baseUrl + '/list')
 }
 
 /**
@@ -44,6 +44,15 @@ export function listUser (data) {
  */
 export function listUserByRole (data) {
   return post(baseUrl + '/listByRole', data)
+}
+
+/**
+ * 添加用户
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export function addUser (data) {
+  return post(baseUrl + '/add', data)
 }
 
 /**
@@ -65,7 +74,7 @@ export function getUserInfo (id) {
  * @returns {AxiosPromise}
  */
 export function editUser (data) {
-  return baseEdit(baseUrl, data)
+  return baseEdit(baseUrl + '/update', data)
 }
 
 /**
@@ -80,12 +89,25 @@ export function judgeUser (id, field, value) {
 }
 
 /**
+ * 查找用户
+ * @param data
+ * @returns {AxiosPromise}
+ */
+export function selectUser (data) {
+  return post(baseUrl + '/list', data)
+}
+
+export function changePwd (data) {
+  return post(baseUrl + '/updatePwd', data)
+}
+
+/**
  * 删除用户
  * @param id
  * @returns {AxiosPromise}
  */
-export function delUser (id) {
-  return post(baseUrl + '/delete', { id })
+export function delUser (data) {
+  return post(baseUrl + '/delete', data)
 }
 
 /**

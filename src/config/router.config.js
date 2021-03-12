@@ -1,6 +1,6 @@
 // eslint-disable-next-line
 import { BasicLayout } from '@/layouts'
-import { bxAnaalyse } from '@/core/icons'
+// import { bxAnaalyse } from '@/core/icons'
 import RouteView from '@/layouts/RouteView'
 import BlankLayout from '@/layouts/BlankLayout'
 
@@ -10,21 +10,52 @@ export const asyncRouterMap = [
     name: 'index',
     component: BasicLayout,
     meta: { title: 'menu.home' },
-    redirect: '/dashboard/analysis',
+    redirect: '/branch',
     children: [
       // dashboard
+      // {
+      //   path: '/dashboard',
+      //   name: 'dashboard',
+      //   redirect: '/dashboard/analysis',
+      //   component: RouteView,
+      //   meta: { title: 'menu.dashboard', keepAlive: true, icon: bxAnaalyse, permission: ['dashboard'] },
+      //   children: [
+      //     {
+      //       path: '/dashboard/analysis/:pageNo([1-9]\\d*)?',
+      //       name: 'Analysis',
+      //       component: () => import('@/views/dashboard/Analysis'),
+      //       meta: { title: 'menu.dashboard.analysis', keepAlive: false, permission: ['dashboard'] }
+      //     }
+      //   ]
+      // },
+
       {
-        path: '/dashboard',
-        name: 'dashboard',
-        redirect: '/dashboard/analysis',
+        path: '/branch',
+        name: 'Branch',
+        component: () => import('@/views/branch/branch'),
+        // redirect: '/branch',
+        meta: { title: '支部管理', icon: 'bars' }
+      },
+
+      {
+        path: '/news',
+        name: 'News',
+        // component: () => import('@/views/news/news'),
         component: RouteView,
-        meta: { title: 'menu.dashboard', keepAlive: true, icon: bxAnaalyse, permission: ['dashboard'] },
+        redirect: '/newsItem',
+        meta: { title: '新闻管理', icon: 'book' },
         children: [
           {
-            path: '/dashboard/analysis/:pageNo([1-9]\\d*)?',
-            name: 'Analysis',
-            component: () => import('@/views/dashboard/Analysis'),
-            meta: { title: 'menu.dashboard.analysis', keepAlive: false, permission: ['dashboard'] }
+            path: '/newsItem',
+            name: 'newsItem',
+            component: () => import('@/views/news/news'),
+            meta: { title: '类型管理', icon: 'edit' }
+          },
+          {
+            path: '/news/addNews',
+            name: 'AddNews',
+            component: () => import('@/views/news/component/input'),
+            meta: { title: '添加新闻', icon: 'plus-circle' }
           }
         ]
       },
@@ -32,84 +63,17 @@ export const asyncRouterMap = [
       {
         path: '/user',
         name: 'User',
-        component: RouteView,
-        redirect: '/user/list',
-        meta: { title: '用户管理', icon: 'user' },
-        children: [
-          {
-            path: 'department',
-            name: 'Department',
-            component: () => import('@/views/user/department'),
-            meta: { title: '部门管理' }
-          },
-          {
-            path: 'list',
-            name: 'UserManager',
-            component: () => import('@/views/user'),
-            meta: { title: '人员管理' }
-          }
-        ]
+        component: () => import('@/views/user/UserManage'),
+        // redirect: '/user/list',
+        meta: { title: '用户管理', icon: 'user' }
       },
 
       {
-        path: '/monitor',
-        name: 'Monitor',
-        component: RouteView,
-        redirect: '/monitor/online',
-        meta: { title: '系统监控', icon: 'desktop' },
-        children: [{
-          path: 'online',
-          name: 'OnlineMonitor',
-          component: () => import('@/views/monitor/online/index'),
-          meta: { title: '在线用户' }
-        }, {
-          path: 'login',
-          name: 'LoginMonitor',
-          component: () => import('@/views/monitor/login-info/index'),
-          meta: { title: '登录日志' }
-        }, {
-          path: 'log',
-          name: 'LogMonitor',
-          component: () => import('@/views/monitor/operate-log/index'),
-          meta: { title: '操作日志' }
-        }, {
-            path: 'server',
-            name: 'ServerMonitor',
-            component: () => import('@/views/monitor/server/index'),
-            meta: { title: '服务监控' }
-          }]
-      },
-      {
-        path: '/sys',
-        name: 'Sys',
-        component: RouteView,
-        redirect: 'noRedirect',
-        meta: {
-          title: '系统设置',
-          icon: 'setting'
-        },
-        children: [{
-          path: 'role',
-          name: 'Role',
-          component: () => import('@/views/sys/role'),
-          meta: {
-            title: '角色管理'
-          }
-        }, {
-          path: 'menus',
-          name: 'Menus',
-          component: () => import('@/views/sys/menus'),
-          meta: {
-            title: '菜单管理'
-          }
-        }, {
-          path: 'config',
-          name: 'Config',
-          component: () => import('@/views/sys/config'),
-          meta: {
-            title: '系统配置'
-          }
-        }]
+        path: '/user/personSpace',
+        name: 'PersonSpace',
+        component: () => import('@/views/user/PersonSpace'),
+        meta: { title: '个人中心', icon: 'user' },
+        hidden: true
       }
     ]
   },

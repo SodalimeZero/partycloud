@@ -1,6 +1,7 @@
 // with polyfills
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
+import E from 'wangeditor'
 
 import Vue from 'vue'
 import App from './App.vue'
@@ -16,6 +17,10 @@ import './core/lazy_use' // use lazy load components
 import './permission' // permission control
 import './utils/filter' // global filter
 import './global.less' // global style
+
+const editor = new E('#div1')
+// 或者 const editor = new E( document.getElementById('div1') )
+editor.create()
 
 Vue.config.productionTip = false
 

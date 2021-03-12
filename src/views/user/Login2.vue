@@ -2,10 +2,13 @@
   <div class="login-container">
     <a-row class="login-main">
       <a-col :span="12" class="login-carousel">
-        <img src="@/assets/images/login/carouse.jpeg">
+        <img src="@/assets/images/login/4.jpg">
+<!--          <p style="margin-top: 200px;color: white;font-size: 23px;text-align: center">信息与安全工程学院党建云</p>-->
+<!--      </a-col>-->
+<!--        </img>-->
       </a-col>
       <a-col :span="12" class="login-form-container">
-        <div class="title">欢迎登录我的后台</div>
+        <div class="title">欢迎登录</div>
         <a-form-model ref="form" :model="form" :rules="rules" class="form">
           <a-form-model-item prop="account">
             <span class="gray">您的账号</span>
@@ -119,7 +122,7 @@ export default {
 <style lang='less' scoped>
 .login-container{
   height: 100vh;
-  background: url("../../assets/images/login/background2.svg") no-repeat;
+  background: url("../../assets/images/login/4.jpg");
   background-size:cover;
 
   .login-main {
@@ -135,6 +138,8 @@ export default {
 
     .login-carousel {
       height: 500px;
+      //background-color: rgba(99, 156, 185, 0.92);
+      //opacity: 0.1;
 
       img {
         border-radius: 18px 0 0 18px;

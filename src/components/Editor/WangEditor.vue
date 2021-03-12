@@ -1,57 +1,56 @@
 <template>
-  <div :class="prefixCls">
-    <div ref="editor" class="editor-wrapper"></div>
-  </div>
+  <!-- 富文本组件 -->
+  <div ref="editor"></div>
 </template>
 
 <script>
-import WEditor from 'wangeditor'
-
+import E from 'wangeditor'
 export default {
-  name: 'WangEditor',
+  name: 'Editor',
   props: {
-    prefixCls: {
-      type: String,
-      default: 'ant-editor-wang'
+    getFullText: {
+      // 回调函数callBack
+      type: Function,
+      default: () => { }
     },
-    // eslint-disable-next-line
-    value: {
-      type: String
+    content: {
+      // 回显数据
+      type: String,
+      default: ''
     }
-  },
+  }, // 回调方法
   data () {
-    return {
-      editor: null,
-      editorContent: null
-    }
+    return {}
   },
   watch: {
-    value (val) {
-      this.editorContent = val
-      this.editor.txt.html(val)
+    content (val) {
+      if (val) {
+        this.editor.txt.html(val)
+      }
+    }
+  },
+  computed: {
+    editor () {
+      return new E(this.$refs.editor)
     }
   },
   mounted () {
-    this.initEditor()
-  },
-  methods: {
-    initEditor () {
-      this.editor = new WEditor(this.$refs.editor)
-      // this.editor.onchangeTimeout = 200
-      this.editor.customConfig.onchange = (html) => {
-        this.editorContent = html
-        this.$emit('change', this.editorContent)
-      }
-      this.editor.create()
+    console.info(this.editor)
+    // let editor = new E(this.$refs.editor);
+    this.editor.config.onchange = html => {
+      this.getFullText(html) // 内容赋值
+    }
+    this.editor.config.showLinkImg = true
+    this.editor.config.uploadImgServer =
+      this.editor.config.uploadFileName = 'file'
+    this.editor.config.zIndex = 8
+    this.editor.config.uploadImgParams = {
+      from: 'editor'
+    }
+    // 如果默认传递content值则渲染默认内容
+    if (this.content) {
+      this.editor.txt.html(this.content)
     }
   }
 }
 </script>
-
-<style lang="less" scoped>
-.ant-editor-wang {
-  .editor-wrapper {
-    text-align: left;
-  }
-}
-</style>

@@ -1,8 +1,10 @@
 <template>
   <div>
+    <!--搜索栏-->
     <a-card :bordered="false">
       <LoginInfoSearchForm @search="(data)=>this.search(data)"></LoginInfoSearchForm>
     </a-card>
+    <!--搜索栏-->
 
     <a-card :bordered="false" class="mt-10">
       <s-table
